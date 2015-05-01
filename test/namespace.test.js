@@ -1,29 +1,29 @@
-var Graph = require('../src/graph')
+var Namespace = require('../src/namespace')
 var hydraLite = require('../src/hydraLite')
 var expect = require('expect')
 
 
-describe('Graph', function() {
+describe('Namespace', function() {
 
   describe('#prefix', function() {
     it('should work', function() {
-      var graph = Graph()
+      var ns = Namespace()
 
-      graph.prefix({
+      ns._.prefix({
         'hydra': 'http://www.w3.org/ns/hydra/core#',
       })
 
-      expect(graph.context.toJSON()).toEqual(
+      expect(ns._.context.toJSON()).toEqual(
         {
           'hydra': 'http://www.w3.org/ns/hydra/core#',
         }
       )
 
-      graph.prefix({
+      ns._.prefix({
         'schema': 'http://schema.org/',
       })
 
-      expect(graph.context.toJSON()).toEqual(
+      expect(ns._.context.toJSON()).toEqual(
         {
           'hydra': 'http://www.w3.org/ns/hydra/core#',
           'schema': 'http://schema.org/'
@@ -34,17 +34,17 @@ describe('Graph', function() {
 
 
   describe('#declareClass', function() {
-    var graph = Graph()
+    var ns = Namespace()
 
-    graph.prefix({
+    ns._.prefix({
       'hydra': 'http://www.w3.org/ns/hydra/core#'
     })
 
-    graph.declareClass('Resource', 'hydra:Resource') 
+    ns._.declareClass('Resource', 'hydra:Resource') 
 
     it("should update the context correctly", function() {
      
-      expect(graph.context.toJSON()).toEqual(
+      expect(ns._.context.toJSON()).toEqual(
         {
           'hydra': 'http://www.w3.org/ns/hydra/core#',
           'Resource': 'hydra:Resource',
@@ -53,8 +53,8 @@ describe('Graph', function() {
     })
 
     it("should render the resource correctly", function() {
-      var resource = graph.ns.Resource(
-        graph.id('/')
+      var resource = ns.Resource(
+        ns._.id('/')
       )
 
       expect(resource.toJSON()).toEqual(
@@ -67,17 +67,17 @@ describe('Graph', function() {
   })
 
   describe('#declareProperty', function() {
-    var graph = Graph()
+    var ns = Namespace()
 
-    graph.prefix({
+    ns._.prefix({
       'hydra': 'http://www.w3.org/ns/hydra/core#',
     })
 
-    graph.declareProperty('member', 'hydra:member')
-    graph.declareProperty('description', 'hydra:description')
+    ns._.declareProperty('member', 'hydra:member')
+    ns._.declareProperty('description', 'hydra:description')
 
     it('should update the context correctly', function() {
-      expect(graph.context.toJSON()).toEqual(
+      expect(ns._.context.toJSON()).toEqual(
         {
           'hydra': 'http://www.w3.org/ns/hydra/core#',
           'member': 'hydra:member',
@@ -87,8 +87,8 @@ describe('Graph', function() {
     })
 
     it('should render a literal correctly', function() {
-      var resource = graph.resource(
-        graph.ns.description("This is a literal")
+      var resource = ns._.resource(
+        ns.description("This is a literal")
       )
       expect(resource.toJSON()).toEqual(
         {
@@ -98,10 +98,10 @@ describe('Graph', function() {
     })
 
     it('should render a link correctly', function() {
-      var resource = graph.resource(
-        graph.ns.member(
-          graph.resource(
-            graph.id('/test')
+      var resource = ns._.resource(
+        ns.member(
+          ns._.resource(
+            ns._.id('/test')
           )
         )
       )
@@ -116,26 +116,26 @@ describe('Graph', function() {
   })
 
   describe('#vocab()', function() {
-    var graph = Graph()
-    graph.prefix(hydraLite.context)
-    graph.prefix({
+    var ns = Namespace()
+    ns._.prefix(hydraLite.context)
+    ns._.prefix({
       'vocab': 'http://example.com/vocab#'
     })
 
-    graph.declareClass(
+    ns._.declareClass(
       'Index', 'vocab:Index',
-      hydraLite.ns.title('Index'),
-      hydraLite.ns.description('This is the index page')
+      hydraLite.title('Index'),
+      hydraLite.description('This is the index page')
     )
     
-    graph.declareProperty(
+    ns._.declareProperty(
       'name', 'vocab:name',
-      hydraLite.ns.title('name'),
-      hydraLite.ns.description('This is the name property')
+      hydraLite.title('name'),
+      hydraLite.description('This is the name property')
     )
     
     it('should render the vocabulary', function() {
-      expect(graph.vocab.toJSON()).toEqual(
+      expect(ns._.vocab.toJSON()).toEqual(
         {
           'supportedClass': [
             {

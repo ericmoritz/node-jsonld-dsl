@@ -1,32 +1,32 @@
-const Graph = require('./graph')
-const hydra = Graph()
+const Namespace = require('./namespace')
+const hydra = Namespace()
 
-hydra.prefix({
+hydra._.prefix({
   'hydra': 'http://www.w3.org/ns/hydra/core#'
 })
 
-hydra.declareProperty('title', 'hydra:title')
-hydra.declareProperty('description', 'hydra:description')
+hydra._.declareProperty('title', 'hydra:title')
+hydra._.declareProperty('description', 'hydra:description')
 
-hydra.declareClass('Resource', 'hydra:Resource')
-hydra.declareProperty('operation', 'hydra:operation')
-hydra.declareProperty('supportedProperty', 'hydra:supportedProperty')
+hydra._.declareClass('Resource', 'hydra:Resource')
+hydra._.declareProperty('operation', 'hydra:operation')
+hydra._.declareProperty('supportedProperty', 'hydra:supportedProperty')
 
 
-hydra.declareClass('Operation', 'hydra:Operation')
-hydra.declareProperty('method', 'hydra:method')
-hydra.declareProperty('expects', 'hydra:expects')
-hydra.declareProperty('returns', 'hydra:returns')
-hydra.declareProperty('statusCodes', 'hydra:statusCodes')
+hydra._.declareClass('Operation', 'hydra:Operation')
+hydra._.declareProperty('method', 'hydra:method')
+hydra._.declareProperty('expects', 'hydra:expects')
+hydra._.declareProperty('returns', 'hydra:returns')
+hydra._.declareProperty('statusCodes', 'hydra:statusCodes')
 
-hydra.declareClass('CreateResourceOperation', 'hydra:CreateResourceOperation')
-hydra.declareClass('DeleteResourceOperation', 'hydra:DeleteResourceOperation')
-hydra.declareClass('ReplaceResourceOperation', 'hydra:ReplaceResourceOperation')
+hydra._.declareClass('CreateResourceOperation', 'hydra:CreateResourceOperation')
+hydra._.declareClass('DeleteResourceOperation', 'hydra:DeleteResourceOperation')
+hydra._.declareClass('ReplaceResourceOperation', 'hydra:ReplaceResourceOperation')
 
-hydra.declareClass('SupportedProperty', 'hydra:SupportedProperty')
-hydra.declareProperty('property', 'hydra:property')
-hydra.declareProperty('required', 'hydra:required')
-hydra.declareProperty('readonly', 'hydra:readonly')
-hydra.declareProperty('writeonly', 'hydra:writeonly')
+hydra._.declareClass('SupportedProperty', 'hydra:SupportedProperty')
+hydra._.declareProperty('property', 'hydra:property')
+hydra._.declareProperty('required', 'hydra:required')
+hydra._.declareProperty('readonly', 'hydra:readonly')
+hydra._.declareProperty('writeonly', 'hydra:writeonly')
 
 module.exports = hydra
