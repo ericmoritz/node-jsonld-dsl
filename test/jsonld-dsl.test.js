@@ -63,6 +63,22 @@ describe('Vocab', () => {
       }
     )
   })
+
+  it('should support property supclassing', function() {
+    let hydra = Namespace(
+      Class('Link')
+    )
+    var search = Property('search', hydra.Link())
+
+    expect(
+      search.toJSON()
+    ).toEqual(
+      {
+        '@id': 'search',
+        '@type': ['rdfs:Property', 'Link']
+      }
+    )
+  })
 })
 
 
