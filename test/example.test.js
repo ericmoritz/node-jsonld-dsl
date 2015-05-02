@@ -40,7 +40,7 @@ const schema = Namespace(
 
 it(
   'should produce a Immutable.Map() of the BlogPosting() resource',
-  function() {
+  () => {
     expect(
 
 //
@@ -84,7 +84,7 @@ it(
 
 it(
   'Resource() allows you to compose class instances into a single resource',
-  function() {
+  () => {
     expect(
 //
 // `Resource()` allows us render a resource that is the composition
@@ -128,7 +128,7 @@ it(
 // ## Context
 //
 //
-it('should render a context correctly', function() {
+it('should render a context correctly', () => {
 //
 // You have two options when it comes to a JSON-LD you can embed the
 // context or you can refer to it as a URL.
@@ -136,7 +136,7 @@ it('should render a context correctly', function() {
 // Let us start with how you would render a context resource:
 //
 //
-  var context = Resource(
+  let context = Resource(
     Prefix(
 // This is the namespace's prefix.
       'schema',                             
@@ -239,7 +239,7 @@ it('should render a context correctly', function() {
 
 // ## Vocabulary
 //
-it('should render a vocabulary correctly', function() {
+it('should render a vocabulary correctly', () => {
   expect(
     //
     // If you need to automatically generate a vocabulary for your
@@ -289,21 +289,21 @@ it('should render a vocabulary correctly', function() {
 //
 // ## Annotating your Properties and Classes
 //
-it('should allow annotation of Property and Classes', function() {
+it('should allow annotation of Property and Classes', () => {
   
 // `Property()` and `Class()` results are `Resources()` like any other
 // so they allow you to annotate them just like any other resource
 
-  var rdfs = Namespace(
+  let rdfs = Namespace(
     Property('comment'),
     Property('range')
   )
 
-  var hydra = Namespace(
+  let hydra = Namespace(
     Class('Link')
   )
 
-  var ns = Namespace(
+  let ns = Namespace(
     Class('SearchResults'),
     Property(
       'search',
