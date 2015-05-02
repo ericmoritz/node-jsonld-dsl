@@ -129,11 +129,9 @@ your resources will use.</p>
             
             <div class="content"><div class='highlight'><pre>      schema.BlogPosting(
         URI(<span class="hljs-string">'/entries/hydra-lite.json'</span>),
-        schema.BlogPosting(
-          schema.name(<span class="hljs-string">'Hydra Lite'</span>),
-          schema.url(<span class="hljs-string">'http://eric.themoritzfamily.com/hydra-lite.html'</span>),
-          schema.articleBody(<span class="hljs-string">'This is the article body...'</span>)
-        )
+        schema.name(<span class="hljs-string">'Hydra Lite'</span>),
+        schema.url(<span class="hljs-string">'http://eric.themoritzfamily.com/hydra-lite.html'</span>),
+        schema.articleBody(<span class="hljs-string">'This is the article body...'</span>)
       ).toJSON()
 
     ).toEqual(</pre></div></div>
