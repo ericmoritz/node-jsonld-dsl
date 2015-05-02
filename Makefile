@@ -1,9 +1,10 @@
 .PHONY: compile test doc
 
-all: test docs
+all: test doc
 
 doc: 
-	npm doc
+	./node_modules/.bin/docco test/example.test.js
+
 test:
 	npm test
 

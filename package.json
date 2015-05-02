@@ -20,8 +20,7 @@
   "scripts": {
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile",
-    "test": "mocha --compilers js:babel/register",
-    "doc": "./node_modules/.bin/docco test/example.test.js"
+    "test": "mocha --compilers js:babel/register"
   },
   "author": "Eric Moritz",
   "license": "MIT"
