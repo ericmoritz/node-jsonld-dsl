@@ -108,7 +108,7 @@ context’s consistent.</p>
 
 it(
   <span class="hljs-string">'should produce a Immutable.Map() of the BlogPosting() resource'</span>,
-  <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  () =&gt; {
     expect(</pre></div></div>
             
         </li>
@@ -182,7 +182,7 @@ compose resources together.</p>
             <div class="content"><div class='highlight'><pre>
 it(
   <span class="hljs-string">'Resource() allows you to compose class instances into a single resource'</span>,
-  <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  () =&gt; {
     expect(</pre></div></div>
             
         </li>
@@ -267,7 +267,7 @@ a <code>schema.BlogPosting()</code>. You would do the following</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>it(<span class="hljs-string">'should render a context correctly'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>it(<span class="hljs-string">'should render a context correctly'</span>, () =&gt; {</pre></div></div>
             
         </li>
         
@@ -284,7 +284,7 @@ context or you can refer to it as a URL.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> context = Resource(
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">let</span> context = Resource(
     Prefix(</pre></div></div>
             
         </li>
@@ -499,7 +499,7 @@ context or you can refer to it as a URL.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>it(<span class="hljs-string">'should render a vocabulary correctly'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+            <div class="content"><div class='highlight'><pre>it(<span class="hljs-string">'should render a vocabulary correctly'</span>, () =&gt; {
   expect(</pre></div></div>
             
         </li>
@@ -570,7 +570,7 @@ service, this couldn’t be any simpler:</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>it(<span class="hljs-string">'should allow annotation of Property and Classes'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>it(<span class="hljs-string">'should allow annotation of Property and Classes'</span>, () =&gt; {</pre></div></div>
             
         </li>
         
@@ -587,16 +587,16 @@ so they allow you to annotate them just like any other resource</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  <span class="hljs-keyword">var</span> rdfs = Namespace(
+  <span class="hljs-keyword">let</span> rdfs = Namespace(
     Property(<span class="hljs-string">'comment'</span>),
     Property(<span class="hljs-string">'range'</span>)
   )
 
-  <span class="hljs-keyword">var</span> hydra = Namespace(
+  <span class="hljs-keyword">let</span> hydra = Namespace(
     Class(<span class="hljs-string">'Link'</span>)
   )
 
-  <span class="hljs-keyword">var</span> ns = Namespace(
+  <span class="hljs-keyword">let</span> ns = Namespace(
     Class(<span class="hljs-string">'SearchResults'</span>),
     Property(
       <span class="hljs-string">'search'</span>,
