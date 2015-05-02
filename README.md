@@ -18,10 +18,8 @@ var schema = Namespace(
 
 var post = schema.BlogPosting(
   URI('/entries/hydra-lite.json'),
-  schema.BlogPosting(
-    schema.name('Hydra Lite'),
-    schema.url('http://eric.themoritzfamily.com/hydra-lite.html'),
-    schema.articleBody('This is the article body...')
-   )
+  schema.name('Hydra Lite'),
+  schema.url('http://eric.themoritzfamily.com/hydra-lite.html'),
+  schema.articleBody('This is the article body...')
 )
 ```
