@@ -1,7 +1,8 @@
 // # jsonld-dsl
 
-// `jsonld-dsl` is a DSL for building JSON-LD powered hypermedia
-// services. This module will serve as the view layer for a service.
+// [jsonld-dsl](http://github.com/ericmoritz/node-jsonld-dsl/) is a
+// DSL for building JSON-LD powered hypermedia services. This module
+// will serve as the view layer for a service.
 
 // Building JSON-LD services by hand often leads to inconsistencies
 // between the context and the resources that is hard to detect.
