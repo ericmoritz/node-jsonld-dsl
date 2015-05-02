@@ -1,6 +1,6 @@
-.PHONY: test
+.PHONY: compile test
 
 test:
-	mocha --compilers js:babel/register
+	npm test
 
 

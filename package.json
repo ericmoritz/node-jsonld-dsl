@@ -11,12 +11,15 @@
     "immutable": "^3.7.2"
   },
   "devDependencies": {
+    "babel": "^5.2.6",
     "expect": "^1.6.0",
     "mocha": "^2.2.4"
   },
   "scripts": {
-    "test": "mocha"
+    "compile": "babel -d lib/ src/",
+    "prepublish": "npm run compile",
+    "test": "mocha --compilers js:babel/register"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Eric Moritz",
+  "license": "MIT"
 }

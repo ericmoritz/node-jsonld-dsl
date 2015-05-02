@@ -1,13 +1,13 @@
-const NS = require('../src/namespace2')
-const Namespace = NS.Namespace
-const URI = NS.URI
-const Class = NS.Class
-const Property = NS.Property
-const type = NS.type
-const Resource = NS.Resource
-const Vocab = NS.Vocab
-const Context = NS.Context
-const Prefix = NS.Prefix
+const DSL = require('../src/jsonld-dsl')
+const Namespace = DSL.Namespace
+const URI = DSL.URI
+const Class = DSL.Class
+const Property = DSL.Property
+const type = DSL.type
+const Resource = DSL.Resource
+const Vocab = DSL.Vocab
+const Context = DSL.Context
+const Prefix = DSL.Prefix
 const expect = require('expect')
 const Immutable = require('immutable')
 const Map = Immutable.Map
@@ -21,6 +21,45 @@ describe('URI', () => {
     ).toEqual(
       {
         '@id': 'test'
+      }
+    )
+  })
+})
+
+describe('Vocab', () => {
+  it('should create the correct map', () => {
+    const ns1 = Namespace(
+      Class('Class1'),
+      Property('prop1')
+    )
+
+    const ns2 = Namespace(
+      Class('Class2'),
+      Property('prop2')
+    )
+
+    expect(
+      Vocab(ns1, ns2).toJSON()
+    ).toEqual(
+      {
+        '@graph': [
+          {
+            "@id": "Class1",
+            "@type": ["rdfs:Class"]
+          },
+          {
+            "@id": "prop1",
+            "@type": ["rdfs:Property"]
+          },
+          {
+            "@id": "Class2",
+            "@type": ["rdfs:Class"]
+          },
+          {
+            "@id": "prop2",
+            "@type": ["rdfs:Property"]
+          }
+        ]
       }
     )
   })
@@ -62,6 +101,17 @@ describe('Property', () => {
       {
         '@id': 'testProperty',
         '@type': ['rdfs:Property']
+      }
+    )
+  })
+
+  it('should allow additional properties', () => {
+    expect(
+      Property('testProperty').toJSON()
+    ).toEqual(
+      {
+        '@id': 'testProperty',
+        '@type': ['rdfs:Property'],
       }
     )
   })
@@ -126,10 +176,38 @@ describe('Prefix', () => {
       prefix.toJSON()
     ).toEqual({
       '@context': {
+        'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
         'vocab': 'http://example.com/vocab#',
         'Class1': 'vocab:Class1',
         'prop1': 'vocab:prop1'
       }
     })
+  })
+
+  it('should support context overrides', () => {
+    const ns = Namespace(
+      Property('member'),
+      Property('up')
+    )
+
+    const prefix = Prefix(
+      'vocab', 'http://example.com/vocab#', ns,
+      {
+        'member': {'@container': '@list'},
+        'up': {'@type': '@id'}
+      }
+    )
+    expect(
+      prefix.toJSON()
+    ).toEqual(
+      {
+        '@context': {
+          'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+          'vocab': 'http://example.com/vocab#',
+          'member': {'@id': 'vocab:member', '@container': '@list'},
+          'up': {'@id': 'vocab:up', '@type': '@id'}
+        }
+      }
+    )
   })
 })
