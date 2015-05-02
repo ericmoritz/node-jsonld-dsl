@@ -10,8 +10,6 @@
 // context's consistent.
 
 const expect = require('expect')
-const Immutable = require('immutable')
-const List = Immutable.List
 const DSL = require('../src/jsonld-dsl')
 const URI = DSL.URI
 const Namespace = DSL.Namespace
