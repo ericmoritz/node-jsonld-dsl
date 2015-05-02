@@ -1,0 +1,22 @@
+{
+  "name": "jsonld-dsl",
+  "version": "1.0.0",
+  "description": "```js",
+  "main": "src/jsonld-dsl",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "expect": "^1.6.0",
+    "immutable": "^3.7.2"
+  },
+  "devDependencies": {
+    "expect": "^1.6.0",
+    "mocha": "^2.2.4"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC"
+}
