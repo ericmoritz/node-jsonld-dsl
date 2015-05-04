@@ -1,6 +1,18 @@
 .PHONY: compile test doc
 
-all: test doc
+SRC = $(wildcard src/*.js)
+LIB = $(SRC:src/%.js=lib/%.js)
+
+all: test lib doc
+
+
+lib: $(LIB)
+lib/%.js: src/%.js
+	mkdir -p $(@D)
+	babel $< -o $@
+
+
+
 
 doc: 
 	./node_modules/.bin/docco test/example.test.js
