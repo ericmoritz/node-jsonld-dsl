@@ -9,16 +9,8 @@
 
 // This DSL will help you build JSON-LD services that keep their
 // context's consistent.
-
-const expect = require('expect')
-const DSL = require('../src/jsonld-dsl')
-const URI = DSL.URI
-const Namespace = DSL.Namespace
-const Class = DSL.Class
-const Property = DSL.Property
-const Prefix = DSL.Prefix
-const Resource = DSL.Resource
-const Vocab = DSL.Vocab
+import expect from 'expect'
+import {DSL, URI, Namespace, Class, Property, Prefix, Resource, Vocab} from '../src/jsonld-dsl'
 
 
 // ## Namespace

@@ -1,11 +1,7 @@
-const Immutable = require('immutable')
-const im = Immutable.fromJS
-const Map = Immutable.Map
-const Set = Immutable.Set
-const List = Immutable.List
+import {fromJS as im, Map, Set, List} from 'immutable'
 
 ///////////////////////////////////////////////////////////////////////////////
-// The Namespace constructor
+// The Namespace varructor
 ///////////////////////////////////////////////////////////////////////////////
 /*
  * Generates a Namespace based on the Class() and Property()
@@ -13,7 +9,7 @@ const List = Immutable.List
  * 
  * Usage:
  *
- * const ns = Namespace(
+ * var ns = Namespace(
  *    Class('Class1'),
  *    Property('prop1')
  * )
@@ -22,12 +18,12 @@ const List = Immutable.List
  * ) // Returns a Immutable.Map() of the Class1 resource instance
  *
  */
-export const Namespace =
+export var Namespace =
   (...definitions) => definitions.reduce(
     (accum, x) => {
-      let typeURI = x.get('@id')
-      let resourceType = x.get('@type', Set())
-      let factoryFun = (
+      var typeURI = x.get('@id')
+      var resourceType = x.get('@type', Set())
+      var factoryFun = (
         resourceType.contains('rdfs:Class')
           ? resourceFactory(typeURI)
           : resourceType.contains('rdfs:Property')
@@ -44,14 +40,14 @@ export const Namespace =
   )
 
 ///////////////////////////////////////////////////////////////////////////////
-// The Prefix constructor
+// The Prefix varructor
 ///////////////////////////////////////////////////////////////////////////////
 /*
  * includes the @context for a Namespace into the resource
  *
  * Usage:
  * 
- * const ns = Namespace(
+ * var ns = Namespace(
  *   Class('Class1'),
  *   Property('prop1')
  * )
@@ -61,13 +57,13 @@ export const Namespace =
  *  ns.prop1('value1')
  * ) // returns a Class1 instance with the @context of ns
  */
-export const Prefix = (prefix, uri, namespace, context={}) => {
-  let contextMap = im(context)
+export var Prefix = (prefix, uri, namespace, context={}) => {
+  var contextMap = im(context)
   return namespace['@graph'].reduce(
     (accum, x) => {
-      let label = x.get('@id')
-      let uri = prefix + ':' + label
-      let value = (
+      var label = x.get('@id')
+      var uri = prefix + ':' + label
+      var value = (
         contextMap.has(label)
           ? contextMap.get(label).set('@id', uri)
           : uri
@@ -93,7 +89,7 @@ export const Prefix = (prefix, uri, namespace, context={}) => {
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// The Resource constructor
+// The Resource varructor
 ///////////////////////////////////////////////////////////////////////////////
 /*
  * Composes a JSON-LD Resource as a Immutable.Map()
@@ -101,7 +97,7 @@ export const Prefix = (prefix, uri, namespace, context={}) => {
  * Usage
  *
  *
- * const schema = Namespace(
+ * var schema = Namespace(
  *   Class('Thing'),
  *   Property('image'), 
  *   Class('Person'),
@@ -109,7 +105,7 @@ export const Prefix = (prefix, uri, namespace, context={}) => {
  *   Property('givenName'),
  * )
  * 
- * const resource = Resource(
+ * var resource = Resource(
  *    URI('#ericmoritz'),
  *    Prefix('schema', 'http://schema.org/', schema),
  *    schema.Thing(
@@ -122,7 +118,7 @@ export const Prefix = (prefix, uri, namespace, context={}) => {
  * ) // Creates a Immutable.Map() of the union of a Thing and Person resource
  *      
  */ 
-export const Resource = (...properties) =>
+export var Resource = (...properties) =>
   properties.reduce(
     (x, y) => im(x).mergeDeep(im(y))
   )
@@ -131,7 +127,7 @@ export const Resource = (...properties) =>
 ///////////////////////////////////////////////////////////////////////////////
 // A convenience function for the '@id' field
 ///////////////////////////////////////////////////////////////////////////////
-export const URI = (uri) =>
+export var URI = (uri) =>
   Map({
     '@id': uri
   })
@@ -140,7 +136,7 @@ export const URI = (uri) =>
 ///////////////////////////////////////////////////////////////////////////////
 // A convenience function for the '@type' field
 ///////////////////////////////////////////////////////////////////////////////
-export const type = (uri) =>
+export var type = (uri) =>
   Map({
     '@type': Set([uri])
   })
@@ -149,7 +145,7 @@ export const type = (uri) =>
 ///////////////////////////////////////////////////////////////////////////////
 // A convenience function for defining classes
 ///////////////////////////////////////////////////////////////////////////////
-export const Class = (label, ...properties) =>
+export var Class = (label, ...properties) =>
   Resource(
     URI(label),
     type('rdfs:Class'),
@@ -160,14 +156,14 @@ export const Class = (label, ...properties) =>
 ///////////////////////////////////////////////////////////////////////////////
 // A convenience function for defining Properties
 ///////////////////////////////////////////////////////////////////////////////
-export const Property = (label, ...properties) =>
+export var Property = (label, ...properties) =>
   Resource(
     URI(label),
     type('rdfs:Property'),
     ...properties
   )
 
-export const Vocab = (...namespaces) =>
+export var Vocab = (...namespaces) =>
   namespaces.reduce(
     (accum, y) => accum.updateIn(
       ['@graph'],
@@ -181,10 +177,10 @@ export const Vocab = (...namespaces) =>
 // Internal
 ///////////////////////////////////////////////////////////////////////////////
 
-// A function that creates a namespace's resource constructor
-const resourceFactory = typeURI => (...properties) =>
+// A function that creates a namespace's resource varructor
+var resourceFactory = typeURI => (...properties) =>
   Resource(type(typeURI), ...properties)
 
 
-const propertyFactory = propURI => value => 
+var propertyFactory = propURI => value => 
   Map().set(propURI, im(value))

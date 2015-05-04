@@ -1,18 +1,7 @@
-const DSL = require('../src/jsonld-dsl')
-const Namespace = DSL.Namespace
-const URI = DSL.URI
-const Class = DSL.Class
-const Property = DSL.Property
-const type = DSL.type
-const Resource = DSL.Resource
-const Vocab = DSL.Vocab
-const Context = DSL.Context
-const Prefix = DSL.Prefix
-const expect = require('expect')
-const Immutable = require('immutable')
-const Map = Immutable.Map
-const Set = Immutable.Set
-const List = Immutable.List
+import {Namespace, URI, Class, Property, type, Resource, Vocab, Context, Prefix} from '../src/jsonld-dsl'
+import expect from 'expect'
+import {Map, Set, List} from 'immutable'
+
 
 describe('URI', () => {
   it('should create the correct map', () => {
