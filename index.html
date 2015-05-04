@@ -68,16 +68,8 @@ context’s consistent.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>
-<span class="hljs-keyword">const</span> expect = <span class="hljs-built_in">require</span>(<span class="hljs-string">'expect'</span>)
-<span class="hljs-keyword">const</span> DSL = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../src/jsonld-dsl'</span>)
-<span class="hljs-keyword">const</span> URI = DSL.URI
-<span class="hljs-keyword">const</span> Namespace = DSL.Namespace
-<span class="hljs-keyword">const</span> Class = DSL.Class
-<span class="hljs-keyword">const</span> Property = DSL.Property
-<span class="hljs-keyword">const</span> Prefix = DSL.Prefix
-<span class="hljs-keyword">const</span> Resource = DSL.Resource
-<span class="hljs-keyword">const</span> Vocab = DSL.Vocab</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> expect <span class="hljs-keyword">from</span> <span class="hljs-string">'expect'</span>
+<span class="hljs-keyword">import</span> {DSL, URI, Namespace, Class, Property, Prefix, Resource, Vocab} <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonld-dsl'</span></pre></div></div>
             
         </li>
         
@@ -145,7 +137,7 @@ your resources will use.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>This will produce a
+              <p>This will produce a <code>ResourceClass</code> instance which is a sub-class of
 <a href="http://facebook.github.io/immutable-js/docs/#/Map">Immutable.Map()</a>
 instance that represents your resource.</p>
 
@@ -174,7 +166,8 @@ instance that represents your resource.</p>
               <p>Because of the <code>Immutable.Map#toJSON</code> method, rendering
 the resource as JSON is as easy as calling <code>JSON.stringify(entry)</code></p>
 <p>The use of <code>Immutable.Map()</code> allows us to easily and efficiently
-compose resources together.</p>
+compose resources together. Any instance of a <code>ResourceClass</code> can
+be composed with <code>Resource()</code></p>
 
             </div>
             
@@ -662,6 +655,100 @@ so they allow you to annotate them just like any other resource</p>
           <span class="hljs-string">"@type"</span>: [<span class="hljs-string">"rdfs:Property"</span>, <span class="hljs-string">"Link"</span>],
           <span class="hljs-string">"comment"</span>: <span class="hljs-string">"This is the search link"</span>,
           <span class="hljs-string">"range"</span>: { <span class="hljs-string">"@id"</span>: <span class="hljs-string">"SearchResults"</span>}
+        }
+      ]
+    }
+  )
+})</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <h1 id="hydra-support">hydra support</h1>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> {hydra} <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonld-dsl'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>hydra is a part of the jsonld-dsl module.  It defines
+all the hydra classes and properties for you</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>For instance, here is a hydra collection that
+has POST, PUT, and DELETE operations declared</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>it(<span class="hljs-string">'allows you to add hydra properties and classes'</span>, () =&gt; {
+  expect(
+    Resource(
+      schema.Blog(),
+      hydra.POST(
+        hydra.statusCode([<span class="hljs-number">303</span>, <span class="hljs-number">400</span>]),
+        hydra.expects(<span class="hljs-string">'BlogPosting'</span>)
+      ),
+      hydra.Collection(
+        hydra.member([
+          Resource(
+            URI(<span class="hljs-string">'/entries/hydra-lite.json'</span>),
+            hydra.PUT(
+              hydra.statusCode([<span class="hljs-number">204</span>, <span class="hljs-number">400</span>]),
+              hydra.expects(<span class="hljs-string">'BlogPosting'</span>)
+            ),
+            hydra.DELETE(),
+            schema.Thing(
+              schema.name(<span class="hljs-string">'Hydra Lite'</span>),
+              schema.url(<span class="hljs-string">'http://eric.themoritzfamily.com/hydra-lite.html'</span>)    
+            ),
+            schema.BlogPosting(
+              schema.articleBody(<span class="hljs-string">'This is the article body...'</span>)
+            )
+          )
+        ])
+      )
+    ).toJSON()
+  ).toEqual(
+    {
+      <span class="hljs-string">'@type'</span>: [<span class="hljs-string">'Blog'</span>, <span class="hljs-string">'Collection'</span>],
+      <span class="hljs-string">'operation'</span>: [
+        {<span class="hljs-string">'@type'</span>: [<span class="hljs-string">'Operation'</span>], <span class="hljs-string">'method'</span>: <span class="hljs-string">'POST'</span>, <span class="hljs-string">'expects'</span>: <span class="hljs-string">'BlogPosting'</span>, <span class="hljs-string">'statusCode'</span>: [<span class="hljs-number">303</span>, <span class="hljs-number">400</span>]}
+      ],
+      <span class="hljs-string">'member'</span>: [
+        {
+          <span class="hljs-string">'@id'</span>: <span class="hljs-string">'/entries/hydra-lite.json'</span>,
+          <span class="hljs-string">'operation'</span>: [
+            {<span class="hljs-string">'@type'</span>: [<span class="hljs-string">'Operation'</span>], <span class="hljs-string">'method'</span>: <span class="hljs-string">'PUT'</span>, <span class="hljs-string">'expects'</span>: <span class="hljs-string">'BlogPosting'</span>, <span class="hljs-string">'statusCode'</span>: [<span class="hljs-number">204</span>, <span class="hljs-number">400</span>]},
+            {<span class="hljs-string">'@type'</span>: [<span class="hljs-string">'Operation'</span>], <span class="hljs-string">'method'</span>: <span class="hljs-string">'DELETE'</span>}            
+          ],
+          <span class="hljs-string">'@type'</span>: [<span class="hljs-string">'Thing'</span>, <span class="hljs-string">'BlogPosting'</span>],
+          <span class="hljs-string">'articleBody'</span>: <span class="hljs-string">'This is the article body...'</span>,
+          <span class="hljs-string">'name'</span>: <span class="hljs-string">'Hydra Lite'</span>,
+          <span class="hljs-string">'url'</span>: <span class="hljs-string">'http://eric.themoritzfamily.com/hydra-lite.html'</span>
         }
       ]
     }
