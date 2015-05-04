@@ -68,16 +68,8 @@ context’s consistent.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>
-<span class="hljs-keyword">const</span> expect = <span class="hljs-built_in">require</span>(<span class="hljs-string">'expect'</span>)
-<span class="hljs-keyword">const</span> DSL = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../src/jsonld-dsl'</span>)
-<span class="hljs-keyword">const</span> URI = DSL.URI
-<span class="hljs-keyword">const</span> Namespace = DSL.Namespace
-<span class="hljs-keyword">const</span> Class = DSL.Class
-<span class="hljs-keyword">const</span> Property = DSL.Property
-<span class="hljs-keyword">const</span> Prefix = DSL.Prefix
-<span class="hljs-keyword">const</span> Resource = DSL.Resource
-<span class="hljs-keyword">const</span> Vocab = DSL.Vocab</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> expect <span class="hljs-keyword">from</span> <span class="hljs-string">'expect'</span>
+<span class="hljs-keyword">import</span> {DSL, URI, Namespace, Class, Property, Prefix, Resource, Vocab} <span class="hljs-keyword">from</span> <span class="hljs-string">'../src/jsonld-dsl'</span></pre></div></div>
             
         </li>
         
@@ -145,7 +137,7 @@ your resources will use.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>This will produce a
+              <p>This will produce a <code>ResourceClass</code> instance which is a sub-class of
 <a href="http://facebook.github.io/immutable-js/docs/#/Map">Immutable.Map()</a>
 instance that represents your resource.</p>
 
@@ -174,7 +166,8 @@ instance that represents your resource.</p>
               <p>Because of the <code>Immutable.Map#toJSON</code> method, rendering
 the resource as JSON is as easy as calling <code>JSON.stringify(entry)</code></p>
 <p>The use of <code>Immutable.Map()</code> allows us to easily and efficiently
-compose resources together.</p>
+compose resources together. Any instance of a <code>ResourceClass</code> can
+be composed with <code>Resource()</code></p>
 
             </div>
             
