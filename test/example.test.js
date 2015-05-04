@@ -51,7 +51,7 @@ it(
 
     ).toEqual(
 //
-// This will produce a
+// This will produce a `ResourceClass` instance which is a sub-class of
 // [Immutable.Map()](http://facebook.github.io/immutable-js/docs/#/Map)
 // instance that represents your resource.
 //
@@ -70,7 +70,8 @@ it(
 // the resource as JSON is as easy as calling `JSON.stringify(entry)`
 //
 // The use of `Immutable.Map()` allows us to easily and efficiently
-// compose resources together.
+// compose resources together. Any instance of a `ResourceClass` can
+// be composed with `Resource()`
 //
 
 it(
