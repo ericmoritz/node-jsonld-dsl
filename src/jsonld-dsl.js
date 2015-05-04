@@ -1,7 +1,7 @@
 import {fromJS as im, Map, Set, List} from 'immutable'
 
 ///////////////////////////////////////////////////////////////////////////////
-// The Namespace varructor
+// The Namespace constructor
 ///////////////////////////////////////////////////////////////////////////////
 /*
  * Generates a Namespace based on the Class() and Property()
@@ -15,15 +15,15 @@ import {fromJS as im, Map, Set, List} from 'immutable'
  * )
  * ns.Class1(
  *   ns.prop1("prop1's value")
- * ) // Returns a Immutable.Map() of the Class1 resource instance
+ * )
  *
  */
-export var Namespace =
+export const Namespace =
   (...definitions) => definitions.reduce(
     (accum, x) => {
-      var typeURI = x.get('@id')
-      var resourceType = x.get('@type', Set())
-      var factoryFun = (
+      let typeURI = x.get('@id')
+      let resourceType = x.get('@type', Set())
+      let factoryFun = (
         resourceType.contains('rdfs:Class')
           ? resourceFactory(typeURI)
           : resourceType.contains('rdfs:Property')
@@ -34,13 +34,16 @@ export var Namespace =
       accum['@graph'] = accum['@graph'].push(x)
       return accum
     },
-    {
-      '@graph': List()
-    }
+    new NamespaceClass()
   )
 
+export class NamespaceClass {
+  constructor() {
+    this['@graph'] = List()
+  }
+}
 ///////////////////////////////////////////////////////////////////////////////
-// The Prefix varructor
+// The Prefix constructor
 ///////////////////////////////////////////////////////////////////////////////
 /*
  * includes the @context for a Namespace into the resource
@@ -57,39 +60,41 @@ export var Namespace =
  *  ns.prop1('value1')
  * ) // returns a Class1 instance with the @context of ns
  */
-export var Prefix = (prefix, uri, namespace, context={}) => {
-  var contextMap = im(context)
-  return namespace['@graph'].reduce(
-    (accum, x) => {
-      var label = x.get('@id')
-      var uri = prefix + ':' + label
-      var value = (
-        contextMap.has(label)
-          ? contextMap.get(label).set('@id', uri)
-          : uri
-      )
-      return accum.updateIn(
-        ['@context'],
-        context => context.set(
-          label, value
+export const Prefix = (prefix, uri, namespace, context={}) => {
+  let contextMap = im(context)
+  return new ResourceClass(
+    namespace['@graph'].reduce(
+      (accum, x) => {
+        let label = x.get('@id')
+        let uri = prefix + ':' + label
+        let value = (
+          contextMap.has(label)
+            ? contextMap.get(label).set('@id', uri)
+            : uri
         )
-      )
-    },
-    Map({
-      '@context': Map(
-        {
-          'rdfs': 'http://www.w3.org/2000/01/rdf-schema#'
-        }
-      ).set(
-        prefix, uri
-      )
-    })
+        return accum.updateIn(
+          ['@context'],
+          context => context.set(
+            label, value
+          )
+        )
+      },
+      Map({
+        '@context': Map(
+          {
+            'rdfs': 'http://www.w3.org/2000/01/rdf-schema#'
+          }
+        ).set(
+          prefix, uri
+        )
+      })
+    )
   )
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// The Resource varructor
+// The Resource constructor
 ///////////////////////////////////////////////////////////////////////////////
 /*
  * Composes a JSON-LD Resource as a Immutable.Map()
@@ -115,20 +120,23 @@ export var Prefix = (prefix, uri, namespace, context={}) => {
  *      schema.givenName('Eric'),
  *      schema.familyName('Moritz')
  *    )
- * ) // Creates a Immutable.Map() of the union of a Thing and Person resource
+ * )
  *      
  */ 
-export var Resource = (...properties) =>
-  properties.reduce(
-    (x, y) => im(x).mergeDeep(im(y))
+export const Resource = (...properties) =>
+  new ResourceClass(
+    properties.reduce(
+      (x, y) => im(x).mergeDeep(im(y))
+    )
   )
 
+export class ResourceClass extends Map {}
 
 ///////////////////////////////////////////////////////////////////////////////
 // A convenience function for the '@id' field
 ///////////////////////////////////////////////////////////////////////////////
-export var URI = (uri) =>
-  Map({
+export const URI = (uri) =>
+  new ResourceClass({
     '@id': uri
   })
 
@@ -136,8 +144,8 @@ export var URI = (uri) =>
 ///////////////////////////////////////////////////////////////////////////////
 // A convenience function for the '@type' field
 ///////////////////////////////////////////////////////////////////////////////
-export var type = (uri) =>
-  Map({
+export const type = (uri) =>
+  new ResourceClass({
     '@type': Set([uri])
   })
 
@@ -145,7 +153,7 @@ export var type = (uri) =>
 ///////////////////////////////////////////////////////////////////////////////
 // A convenience function for defining classes
 ///////////////////////////////////////////////////////////////////////////////
-export var Class = (label, ...properties) =>
+export const Class = (label, ...properties) =>
   Resource(
     URI(label),
     type('rdfs:Class'),
@@ -156,31 +164,33 @@ export var Class = (label, ...properties) =>
 ///////////////////////////////////////////////////////////////////////////////
 // A convenience function for defining Properties
 ///////////////////////////////////////////////////////////////////////////////
-export var Property = (label, ...properties) =>
+export const Property = (label, ...properties) =>
   Resource(
     URI(label),
     type('rdfs:Property'),
     ...properties
   )
 
-export var Vocab = (...namespaces) =>
-  namespaces.reduce(
-    (accum, y) => accum.updateIn(
-      ['@graph'],
-      graph => graph.concat(
-        y['@graph']
-      )
-    ),
-    Map({'@graph': List()})
+export const Vocab = (...namespaces) =>
+  new ResourceClass(
+    namespaces.reduce(
+      (accum, y) => accum.updateIn(
+        ['@graph'],
+        graph => graph.concat(
+          y['@graph']
+        )
+      ),
+      Map({'@graph': List()})
+    )
   )
 ///////////////////////////////////////////////////////////////////////////////
 // Internal
 ///////////////////////////////////////////////////////////////////////////////
 
-// A function that creates a namespace's resource varructor
-var resourceFactory = typeURI => (...properties) =>
+// A function that creates a namespace's resource constructor
+const resourceFactory = typeURI => (...properties) =>
   Resource(type(typeURI), ...properties)
 
 
-var propertyFactory = propURI => value => 
-  Map().set(propURI, im(value))
+const propertyFactory = propURI => value => 
+  new ResourceClass().set(propURI, im(value))

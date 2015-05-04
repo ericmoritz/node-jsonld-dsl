@@ -1,9 +1,12 @@
-import {Namespace, URI, Class, Property, type, Resource, Vocab, Context, Prefix} from '../src/jsonld-dsl'
+import {NamespaceClass, ResourceClass, Namespace, URI, Class, Property, type, Resource, Vocab, Context, Prefix} from '../src/jsonld-dsl'
 import expect from 'expect'
 import {Map, Set, List} from 'immutable'
 
 
 describe('URI', () => {
+  it('should be a ResourceClass instance', () => {
+    expect(URI('test')).toBeA(ResourceClass)
+  })
   it('should create the correct map', () => {
     expect(
       URI('test').toJSON()
@@ -16,6 +19,13 @@ describe('URI', () => {
 })
 
 describe('Vocab', () => {
+  it('should be a ResourceClass instance', () => {
+    let ns1 = Namespace(
+      Class('Class1')
+    )
+    expect(Vocab(ns1)).toBeA(ResourceClass)
+  })
+  
   it('should create the correct map', () => {
     const ns1 = Namespace(
       Class('Class1'),
@@ -51,6 +61,7 @@ describe('Vocab', () => {
         ]
       }
     )
+
   })
 
   it('should support property supclassing', function() {
@@ -72,6 +83,9 @@ describe('Vocab', () => {
 
 
 describe('type', () => {
+  it('should be a ResourceClass instance', () => {
+    expect(type('test')).toBeA(ResourceClass)
+  })
   it('should create a type set', () => {
     expect(
       type('test').toJSON()
@@ -85,6 +99,10 @@ describe('type', () => {
 
 
 describe('Class', () => {
+  it('should be a ResourceClass instance', () => {
+    expect(Class('TestClass')).toBeA(ResourceClass)
+  })
+
   it('should create a Class resource', () => {
     expect(
       Class('TestClass').toJSON()
@@ -99,6 +117,10 @@ describe('Class', () => {
 
 
 describe('Property', () => {
+  it('should be a ResourceClass instance', () => {
+    expect(Property('testProperty')).toBeA(ResourceClass)
+  })
+
   it('should create a Property resource', () => {
     expect(
       Property('testProperty').toJSON()
@@ -124,6 +146,10 @@ describe('Property', () => {
 
 
 describe('Resource', () => {
+  it('should be a ResourceClass instance', () => {
+    expect(Resource(URI('/'))).toBeA(ResourceClass)
+  })
+
   it('should generate a resource correctly', () => {
     let res = Resource(
       URI('/'),
@@ -140,6 +166,10 @@ describe('Resource', () => {
 
 
 describe('Namespace', () => {
+  it('should be a NamespaceClass instance', () => {
+    expect(Namespace(Class('Class1'))).toBeA(NamespaceClass)
+  })
+
   it('should create a namespace correctly', () => {
 
     const ns = Namespace(
@@ -167,6 +197,13 @@ describe('Namespace', () => {
 })
 
 describe('Prefix', () => {
+  it('should be a ResourceClass instance', () => {
+    const ns = Namespace(
+      Class('Class1')
+    )
+    expect(Prefix('ns', 'http://example.com/', ns)).toBeA(ResourceClass)
+  })
+
   it('should generate the context correctly', () => {
     const ns = Namespace(
       Class('Class1'),
