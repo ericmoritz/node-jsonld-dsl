@@ -23,8 +23,6 @@
     "mocha": "^2.2.4"
   },
   "scripts": {
-    "compile": "babel -d lib/ src/",
-    "prepublish": "npm run compile",
     "test": "mocha --compilers js:babel/register"
   }
 }
