@@ -3,7 +3,7 @@
 SRC = $(wildcard src/*.js)
 LIB = $(SRC:src/%.js=lib/%.js)
 
-all: test lib doc
+all: lib test doc
 
 
 lib: $(LIB)

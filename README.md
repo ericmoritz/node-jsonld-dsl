@@ -23,3 +23,13 @@ var post = schema.BlogPosting(
   schema.articleBody('This is the article body...')
 )
 ```
+
+## hydra support
+
+This module declares the [hydra]() namespace for you. See the
+[documentation](https://ericmoritz.github.io/node-jsonld-dsl/) for
+more information
+
+```js
+var hydra = require('jsonld-dsl').hydra
+```

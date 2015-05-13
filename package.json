@@ -1,11 +1,11 @@
 {
   "name": "jsonld-dsl",
   "description": "A DSL for building JSON-LD resources",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "homepage": "https://ericmoritz.github.io/node-jsonld-dsl/",
   "license": "MIT",
   "author": "Eric Moritz",
-  "main": "lib/jsonld-dsl",
+  "main": "lib/index",
   "directories": {
     "test": "test"
   },
@@ -14,7 +14,8 @@
     "url": "https://github.com/ericmoritz/node-jsonld-dsl.git"
   },
   "dependencies": {
-    "immutable": "^3.7.2"
+    "immutable": "^3.7.2",
+    "jsonld": "^0.3.22"
   },
   "devDependencies": {
     "babel": "^5.2.6",
