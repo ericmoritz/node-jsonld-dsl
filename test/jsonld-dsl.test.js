@@ -1,4 +1,4 @@
-import {NamespaceClass, ResourceClass, Namespace, URI, Class, Property, type, Resource, Vocab, Context, Prefix} from '../src/jsonld-dsl'
+import {NamespaceClass, ResourceClass, Namespace, URI, Class, Property, type, Resource, Vocab, Context, Prefix} from '../src/index'
 import expect from 'expect'
 import {Map, Set, List} from 'immutable'
 

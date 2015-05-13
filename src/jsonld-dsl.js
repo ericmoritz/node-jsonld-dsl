@@ -60,6 +60,7 @@ export class NamespaceClass {
  *  ns.prop1('value1')
  * ) // returns a Class1 instance with the @context of ns
  */
+
 export const Prefix = (prefix, uri, namespace, context={}) => {
   let contextMap = im(context)
   return new ResourceClass(
@@ -194,3 +195,4 @@ const resourceFactory = typeURI => (...properties) =>
 
 const propertyFactory = propURI => value => 
   new ResourceClass().set(propURI, im(value))
+

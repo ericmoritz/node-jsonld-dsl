@@ -10,7 +10,7 @@
 // This DSL will help you build JSON-LD services that keep their
 // context's consistent.
 import expect from 'expect'
-import {DSL, URI, Namespace, Class, Property, Prefix, Resource, Vocab} from '../src/jsonld-dsl'
+import {DSL, URI, Namespace, Class, Property, Prefix, Resource, Vocab} from 'jsonld-dsl'
 
 
 // ## Namespace
@@ -346,6 +346,61 @@ it('should allow annotation of Property and Classes', () => {
   )
 })
 
+// # hydra support
+import {hydra} from 'jsonld-dsl'
 
+// hydra is a part of the jsonld-dsl module.  It defines
+// all the hydra classes and properties for you
 
-
+// For instance, here is a hydra collection that
+// has POST, PUT, and DELETE operations declared
+it('allows you to add hydra properties and classes', () => {
+  expect(
+    Resource(
+      schema.Blog(),
+      hydra.POST(
+        hydra.statusCode([303, 400]),
+        hydra.expects('BlogPosting')
+      ),
+      hydra.Collection(
+        hydra.member([
+          Resource(
+            URI('/entries/hydra-lite.json'),
+            hydra.PUT(
+              hydra.statusCode([204, 400]),
+              hydra.expects('BlogPosting')
+            ),
+            hydra.DELETE(),
+            schema.Thing(
+              schema.name('Hydra Lite'),
+              schema.url('http://eric.themoritzfamily.com/hydra-lite.html')    
+            ),
+            schema.BlogPosting(
+              schema.articleBody('This is the article body...')
+            )
+          )
+        ])
+      )
+    ).toJSON()
+  ).toEqual(
+    {
+      '@type': ['Blog', 'Collection'],
+      'operation': [
+        {'@type': ['Operation'], 'method': 'POST', 'expects': 'BlogPosting', 'statusCode': [303, 400]}
+      ],
+      'member': [
+        {
+          '@id': '/entries/hydra-lite.json',
+          'operation': [
+            {'@type': ['Operation'], 'method': 'PUT', 'expects': 'BlogPosting', 'statusCode': [204, 400]},
+            {'@type': ['Operation'], 'method': 'DELETE'}            
+          ],
+          '@type': ['Thing', 'BlogPosting'],
+          'articleBody': 'This is the article body...',
+          'name': 'Hydra Lite',
+          'url': 'http://eric.themoritzfamily.com/hydra-lite.html'
+        }
+      ]
+    }
+  )
+})
